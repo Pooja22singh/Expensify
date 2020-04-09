@@ -1,34 +1,52 @@
 const path = require("path");//reuired for concatenating paths as paths can be system dependent
 //and we are using absolute path Therefore thats a bad idea to concatenate using simple +
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 console.log(__dirname);
-module.exports = {
-  entry: "./src/app.js",
-  output: {
-    path: path.join(__dirname, "public"),
-    filename: "bundle.js"
-  },
-  module: {
-    rules: [
-      {
-      loader:'babel-loader',
-      test:/\.js$/,
-      exclude:/node_modules/
-      },{
-        test:/\.s?css$/,
-        use:[
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ]
-      }
-    ]
-  },
-  devtool:"cheap-module-eval-source-map",
-  devServer:{
-    contentBase: path.join(__dirname, "public"),
-    historyApiFallback:true
+module.exports = (env) => {
+  const isProduction = env === "production";
+  const CSSExtract = new ExtractTextPlugin('styles.css');
+  return {
+    entry: "./src/app.js",
+    output: {
+      path: path.join(__dirname, "public"),
+      filename: "bundle.js"
+    },
+    module: {
+      rules: [
+        {
+          loader: 'babel-loader',
+          test: /\.js$/,
+          exclude: /node_modules/
+        }, {
+          test: /\.s?css$/,
+          use: CSSExtract.extract({
+            use:[
+            {
+              loader:'css-loader',
+              option:{
+                sourceMap:true
+              }
+             },
+            {
+              loader:'sass-loader',
+              option:{
+                sourceMap:true
+              }
+            }
+            ]
+          })
+        }
+      ]
+    },
+    plugins:[CSSExtract],
+    devtool: isProduction? "source-map" : "inline-source-map",
+    devServer: {
+      contentBase: path.join(__dirname, "public"),
+      historyApiFallback: true
+    }
   }
-};
+
+}
 
 //loader --Its a plugin of webpack using this we tell webpack how to treat or what to have to be c0nverted Eg : We need to tell webpack t
 //to whenever it sees a js file so use babel to convert JSX to normal JS using presets of React and also convert
