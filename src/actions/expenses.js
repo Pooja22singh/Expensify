@@ -1,5 +1,4 @@
 import database from '../firebase/firebase';
-import expenses from '../selectors/expenses';
 /** Expenses action generators*/
 //All other actions of redux are synchronous by default
 //But when we need to connect to a long running process
@@ -44,34 +43,52 @@ export const removeExpense = ({ id } = {}) => ({
     type: "REMOVE_EXPENSE",
     id
 });
+export const startRemoveExpense = ({ id }) => {
+    return (dispatch) => {
+        database.ref(`expenses/${id}`).remove().then(function () {
+            dispatch(removeExpense({ id }));
+        }).catch(function (error) {
+            console.log("Remove failed: " + error.message);
+        });
+    };
+};
+
 //Edit Epense
 export const editExpense = (id, updates) => ({
     type: "EDIT_EXPENSE",
     id,
     updates
 });
-
-export const setExpense = (expenses) => ({
-    type:"SET_EXPENSES",
-    expenses
-});
-
-export const startSetExpenses = () => {
+export const startEditExpense = (id, updates) => {
     return (dispatch) => {
-      return database.ref('expenses').once('value').then((snapshot) => {
-            const expenses = [];
-            snapshot.forEach((childSnapshot) => {
-                expenses.push(
-                    {
-                        id:childSnapshot.key,
-                        ...childSnapshot.val()
-                    }
-                );
-            });
-            dispatch(setExpense(expenses));
+        database.ref(`expenses/${id}`).update({
+            ...updates
         });
+        dispatch(editExpense(id,updates));
+    };
+};
+
+    export const setExpense = (expenses) => ({
+        type: "SET_EXPENSES",
+        expenses
+    });
+
+    export const startSetExpenses = () => {
+        return (dispatch) => {
+            return database.ref('expenses').once('value').then((snapshot) => {
+                const expenses = [];
+                snapshot.forEach((childSnapshot) => {
+                    expenses.push(
+                        {
+                            id: childSnapshot.key,
+                            ...childSnapshot.val()
+                        }
+                    );
+                });
+                dispatch(setExpense(expenses));
+            });
+        }
     }
-}
 
 
 
