@@ -1,18 +1,20 @@
 @mixin inputFeatures {
     border: 1px solid #cacccd;
     height: 50px;
-    font-size: $font-size-large;   
+    font-size: $font-size-large;
     font-weight: 300;
-    padding: $s-size; 
+    padding: $s-size;
 }
 
-.text-input{
+.text-input {
     @include inputFeatures;
 }
-.select{
+.select {
     @include inputFeatures;
 }
-.textarea{
+.textarea {
     @include inputFeatures;
-height: 10rem;
+    height: 10rem;
+    resize: none;
+    width: 360px;
 }
