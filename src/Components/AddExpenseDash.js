@@ -4,15 +4,21 @@ import { connect } from 'react-redux';
 import { startAddExpenses } from '../actions/expenses';
 export class AddExpensePage extends React.Component {
 
-    onSubmit = (expenses) =>{
+    onSubmit = (expenses) => {
         this.props.startAddExpenses(expenses);
         this.props.history.push("/dashboard");
     }
     render() {
         return (
             <div>
-                <p>This is from Add expense Page</p>
-                <ExpenseForm onSubmit={this.onSubmit} />
+                <div className="page-header">
+                    <div className="content-container">
+                        <h1 className="page_header__title">Add Expense</h1>
+                    </div>
+                </div>
+                <div className="content-container">
+                    <ExpenseForm onSubmit={this.onSubmit} />
+                </div>
             </div>
         );
     }

@@ -1,0 +1,19 @@
+.button {
+    color: white;
+    background-color: $blue;
+    padding: 10px;
+    border: 0;
+    font-weight: 300;
+    font-size: $m-size;
+}
+.removeBtn{
+    @extend .button;
+    background-color:#888;
+}
+.header-container {
+    button {
+        @extend .button;
+        background: none;
+    }
+}
+
