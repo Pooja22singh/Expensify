@@ -16,5 +16,7 @@
     @include inputFeatures;
     height: 10rem;
     resize: none;
+    @media screen and (min-width:$desktop-breakpoint){
     width: 360px;
+    }
 }
