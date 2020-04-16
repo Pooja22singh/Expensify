@@ -1,5 +1,5 @@
 import React from 'react';
 export default ()=>(
 <div className="loader">
-<img class="loader__img" src="/images/loader.gif" /></div>
+<img className="loader__img" src="/images/loader.gif" /></div>
 );
