@@ -9,7 +9,7 @@ const ExpensesSummary = ({ expenseCount, expenseAmount }) => {
     return (
         <div className="page-header">
             <div className="content-container">
-                <h1 className="page-header__title">Viewing <span> {expenseCount} </span>  {expenselabel} totalling to <span>{expenseAmount}</span></h1>
+                <h1 className="page-header__title">Viewing <span> {expenseCount} </span>  {expenselabel} totaling to <span>{expenseAmount.toFixed(2)}</span></h1>
                 <div className="page-header__actions">
                     <Link className="button" to="/create">Add Expense</Link>
                 </div>
